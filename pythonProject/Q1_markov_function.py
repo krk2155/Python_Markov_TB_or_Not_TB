@@ -80,10 +80,9 @@ def life_month_model(n_max_cycles=600, screen=100):
         # multiplying init_state matrix with transitionProb matrix
         end_state_prop = init_state_prop.dot(transitionProb)
 
-        for x in end_state_prop:
-            if x<0:
-                end_state_prop[np.where(end_state_prop == x)] = abs(end_state_prop[np.where(end_state_prop == x)])
-            end_state_prop[end_state_prop.indx(x)]
+        for index, x in enumerate(end_state_prop):
+            if x < 0:
+                end_state_prop[index] = 0
 
         # new init_state is the old end_state
         init_state_prop = end_state_prop

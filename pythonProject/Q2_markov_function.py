@@ -51,29 +51,32 @@ def cost_life_month_model(n_max_cycles=600, screen=100):
             # Tested & Treated:
             sens_TST = 0.80
             false_positive_TST = 0.05
-            p_being_treated_by_test = sens_TST + false_positive_TST
-
-            # Probability of Being Tested Positive
-            p_being_treated_by_test = sens_TST + false_positive_TST
 
             # New Probability of Disease Progression
-            p_SE = p_SE * (1- p_being_treated_by_test)
-            p_EI = p_EI * (1- p_being_treated_by_test)
+            p_SE = p_SE * (1 - false_positive_TST)
+            p_EI = p_EI * (1 - sens_TST)
+            p_IE = p_IE * (1 - sens_TST)
 
-            # Cost of Test
+            # Cost of Test: previous cycle init_state_prop * test cost
             c_cycle_test = int(sum(init_state_prop[0:3] * c_test))
 
             # Cost of Being Tested Positive and Treated
-            c_cycle_tested_treated = int(sum(init_state_prop[0:3] * p_being_treated_by_test * c_treatment))
-
+            # proportion of those being tested positive
+            p_prop_test_positive = np.array([init_state_prop[0] * false_positive_TST,
+                                      init_state_prop[1] * sens_TST,
+                                      init_state_prop[2] * sens_TST])
+            c_cycle_treated = int(sum(p_prop_test_positive) * c_treatment)
 
         else:
+            # No Test Conducted
             sens_TST = 0
-            # Not-Tested & Treated:
-            p_not_tested_treated = p_IE
-            c_being_treated = p_being_treated_by_test * c_treatment + p_natural_treat*c_treatment
+            false_positive_TST = 0
 
-        # State Transition Probabilities (per 1 month)
+            c_cycle_test = 0
+
+            # New Probability of Disease Progression
+            c_cycle_treated = init_state_prop[3] * p_IE * c_treatment
+
         # starting from 'Susceptible' state
         p_SD = p_BD
         p_SI = int(0)
@@ -110,15 +113,16 @@ def cost_life_month_model(n_max_cycles=600, screen=100):
         # multiplying init_state matrix with transitionProb matrix
         end_state_prop = init_state_prop.dot(transitionProb)
 
-        if any(t < 0 for t in end_state_prop):
-            break
+        for index, x in enumerate(end_state_prop):
+            if x < 0:
+                end_state_prop[index] = 0
 
         # new init_state is the old end_state
         init_state_prop = end_state_prop
 
         # add "life-month" of "Susceptible", "Latent TB", and "Active TB" states
         cycle_reward = sum(init_state_prop[0:3])
-        cycle_cost = p_TST_treat * c_treatment + c_being_tested
+        cycle_cost = c_cycle_test + c_cycle_treated
 
         # accumulate each cycle's "life-months" into "total_life_months"
         total_life_months += cycle_reward
@@ -137,7 +141,9 @@ def cost_life_month_model(n_max_cycles=600, screen=100):
               f"Total Reward: {total_life_months:.4f}, "
               f"Total Cost: {total_accum_cost:.4f}")
 
-    return total_life_months
+    round(total_life_months, 2)
+    round(total_accum_cost, 2)
+    return total_life_months, total_accum_cost
 
 
 def difference_calculator(screening_reward_total_life_months, no_screening_total_life_months):
@@ -161,3 +167,40 @@ def difference_calculator(screening_reward_total_life_months, no_screening_total
     print(f"Difference in Total Months {diff_total_life_month:.5f} ")
 
     return year_month
+
+"""def ICER_calculator(first_life_month, second_life_month, first_cost, second_cost):
+"""
+
+def ICER_calculator(first_strategy, second_strategy):
+    """
+    :param first_strategy[0]: life-month of the first strategy
+    :param second_strategy[0]: life-month of the second strategy
+    :param first_strategy[1]: cost of the first strategy
+    :param second_strategy[1]: cost of the second strategy
+    :return: ICER, dominant_strategy[life_month,cost]
+    """
+    # Scenario1: if stage2m - stage1m > 0 & stage2c - stage1c > 0:
+    if (second_strategy[0] - first_strategy[0]) > 0 and (second_strategy[1] - first_strategy[1]) > 0:
+        #calculate ICER
+        ICER = (second_strategy[0] - first_strategy[0])/(second_strategy[1] - first_strategy[1])
+        print("Scenario1")
+        return ICER, first_strategy, second_strategy
+
+    # Scenario2: if stage2m - stage1m < 0 & stage2c - stage1c < 0:
+    elif (second_strategy[0] - first_strategy[0]) < 0 and (second_strategy[1] - first_strategy[1]) < 0:
+        # calculate ICER
+        ICER = (second_strategy[0] - first_strategy[0]) / (second_strategy[1] - first_strategy[1])
+        print("Scenario2")
+        return ICER, first_strategy, second_strategy
+
+    # Scenario3: if stage2m - stage1m > 0 & stage2c - stage1c < 0:
+    elif (second_strategy[0] - first_strategy[0]) > 0 and (second_strategy[1] - first_strategy[1]) < 0:
+        # remove stage1 (stage1 dominated)
+        print("Scenario3")
+        return second_strategy
+
+    # Scenario4: if stage2m - stage1m < 0 & stage2c - stage1c > 0:
+    elif (second_strategy[0] - first_strategy[0]) < 0 and (second_strategy[1] - first_strategy[1]) > 0:
+        # remove stage2 (stage2 dominated)
+        print("Scenario4")
+        return first_strategy
