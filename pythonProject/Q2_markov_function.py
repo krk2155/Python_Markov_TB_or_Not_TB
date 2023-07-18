@@ -143,64 +143,117 @@ def cost_life_month_model(n_max_cycles=600, screen=100):
 
     round(total_life_months, 2)
     round(total_accum_cost, 2)
-    return total_life_months, total_accum_cost
-
-
-def difference_calculator(screening_reward_total_life_months, no_screening_total_life_months):
-    """
-    :param screening_reward:
-    :param no_screening_reward:
-    :return:year_month
-    """
-    diff_total_life_month = screening_reward_total_life_months - no_screening_total_life_months
-    if diff_total_life_month < 0:
-        diff_life_year = abs(diff_total_life_month) // 12
-        diff_life_year = -diff_life_year
-        diff_remain_months = abs(diff_total_life_month) % 12
-        diff_remain_months = -diff_remain_months
-    else:
-        diff_life_year = diff_total_life_month // 12
-        diff_remain_months = diff_total_life_month % 12
-    year_month = [round(diff_life_year, 4), round(diff_remain_months, 4)]
-
-    print(f"Difference in Years {diff_life_year:.5f} and Months {diff_remain_months:.5f}")
-    print(f"Difference in Total Months {diff_total_life_month:.5f} ")
-
-    return year_month
-
-"""def ICER_calculator(first_life_month, second_life_month, first_cost, second_cost):
-"""
+    return [total_life_months, total_accum_cost]
 
 def ICER_calculator(first_strategy, second_strategy):
     """
+    This function takes first and second strategy, and then subtracts first strategy's life month
+    from second strategy life month. Same applies to costs.
+    This function then checks if incremental lifemonth is larger, smaller, or equal to 0. Same applies to incre_cost
+
+    If Scenario1: incr_lm > 0 & incr_cost > 0 --> return
+    If Scenario2: incr_lm > 0 & incr_cost < 0 --> return
+    If Scenario3: incr_lm < 0 & incr_cost > 0 --> return
+    If Scenario4: incr_lm < 0 & incr_cost < 0 --> return
+
     :param first_strategy[0]: life-month of the first strategy
     :param second_strategy[0]: life-month of the second strategy
     :param first_strategy[1]: cost of the first strategy
     :param second_strategy[1]: cost of the second strategy
     :return: ICER, dominant_strategy[life_month,cost]
     """
-    # Scenario1: if stage2m - stage1m > 0 & stage2c - stage1c > 0:
-    if (second_strategy[0] - first_strategy[0]) > 0 and (second_strategy[1] - first_strategy[1]) > 0:
-        #calculate ICER
-        ICER = (second_strategy[0] - first_strategy[0])/(second_strategy[1] - first_strategy[1])
-        print("Scenario1")
-        return ICER, first_strategy, second_strategy
+    # Incremental Life Month & Cost
+    incr_lm = second_strategy[0] - first_strategy[0]
+    incr_cost = second_strategy[1] - first_strategy[1]
 
-    # Scenario2: if stage2m - stage1m < 0 & stage2c - stage1c < 0:
-    elif (second_strategy[0] - first_strategy[0]) < 0 and (second_strategy[1] - first_strategy[1]) < 0:
-        # calculate ICER
-        ICER = (second_strategy[0] - first_strategy[0]) / (second_strategy[1] - first_strategy[1])
-        print("Scenario2")
-        return ICER, first_strategy, second_strategy
+    scenario = 0
 
-    # Scenario3: if stage2m - stage1m > 0 & stage2c - stage1c < 0:
-    elif (second_strategy[0] - first_strategy[0]) > 0 and (second_strategy[1] - first_strategy[1]) < 0:
-        # remove stage1 (stage1 dominated)
-        print("Scenario3")
-        return second_strategy
+    # Scenario 1 & 2
+    if incr_lm > 0:
+        if incr_cost > 0:
+            ICER = incr_lm / incr_cost
+            scenario = 1
+            print(f"Scenario1: {ICER}")
+            return [scenario, ICER, first_strategy, second_strategy]
+        elif incr_cost < 0:
+            ICER = incr_lm / incr_cost
+            scenario = 2
+            print(f"Scenario3: {ICER}")
+            return [scenario, ICER, 0, second_strategy]
 
-    # Scenario4: if stage2m - stage1m < 0 & stage2c - stage1c > 0:
-    elif (second_strategy[0] - first_strategy[0]) < 0 and (second_strategy[1] - first_strategy[1]) > 0:
-        # remove stage2 (stage2 dominated)
-        print("Scenario4")
-        return first_strategy
+    # Scenario 3 & 4
+    elif incr_lm < 0:
+        if incr_cost < 0:
+            ICER = incr_lm / incr_cost
+            scenario = 3
+            print(f"Scenario2: {ICER}")
+            return [scenario, ICER, first_strategy, second_strategy]
+        elif incr_cost > 0:
+            ICER = incr_lm / incr_cost
+            scenario = 4
+            print(f"Scenario4: {ICER}")
+            return [scenario, ICER, first_strategy, 0]
+
+    elif incr_lm == 0:
+        if incr_cost == 0:
+            ICER = 0
+            scenario = 5
+            print(f"Scenario5,{ICER}")
+            return [scenario, ICER, 0, 0]
+
+def new_list_creator(list_of_strategies):
+    """
+    :param list_of_strategies: list of list of life-months and costs
+    :return: "list_of_strategies_updated" or just "list_of_strategies" and "list_of_ICER"
+    """
+    t = 1
+    ICER_1st_2nd_strategy = []
+    list_of_ICER = []
+    list_of_strategies_updated = []
+    while t < 11:
+        # ICER, first_strategy, second_strategy
+        ICER_1st_2nd_scenario = ICER_calculator(list_of_strategies[t-1], list_of_strategies[t])
+
+        # if incr_lm <0, and incr_cost>0, then remove first_strategy and ICER (Scenario == 4)
+        if ICER_1st_2nd_scenario[0] == 4:
+            list_of_strategies.remove(list_of_strategies[t - 1])
+        # if incr_lm <0, and incr_cost>0, then
+
+        # if incr_lm >0, and incr_cost>0, the
+
+        # if incr_lm >0, and incr_cost<0, the
+
+        # if second_strategy_LM < first_strategy_LM, then
+            list_of_ICER.append(result[0])
+            list_of_strategies_updated.append(ICER_1st_2nd_strategy[t - 1])
+            list_of_strategies_updated.append(ICER_1st_2nd_strategy[t])
+        if result[0] == 0:
+            list_of_strategies_updated.append(list_of_strategies[t])
+        # remove stage1
+        elif result[1] == 0:
+            list_of_strategies_updated.append(list_of_strategies[t-1])
+
+
+        if result[0] != 0:
+            list_of_ICER.append(result[0]) # add the new ICER to the list_of_ICER
+        if result[1]:
+            list_of_strategies_updated.append(list_of_strategies[t-1])
+            list_of_strategies_updated.append(list_of_strategies[t])
+        else:
+            list_of_strategies_updated.append(list_of_strategies[t-1])
+            list_of_strategies_updated.append(list_of_strategies[t])
+        t +=1
+
+    return list_of_ICER, list_of_strategies
+
+def ICER_Comparator(list_of_ICER):
+    """
+    this function checks the second ICER and first ICER.
+        If second ICER is SMALLER than first ICER:
+            remove the second strategy (its LM and Cost)
+            then, recalculate the ICER from where the second ICER was removed and make new ICER
+        If second ICER is LARGER than first ICER:
+            keep both first ICER And second ICER as they are
+    :param list_of_ICER: NOT-sorted list of ICERS
+    :return:
+    """
