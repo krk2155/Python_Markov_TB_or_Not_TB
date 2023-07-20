@@ -143,3 +143,103 @@ item_list = new_list
 item_list = ['item', 5, 'foo', 3.14, True]
 item_list = [e for e in item_list if e not in ('item', 5)]
 
+# maybe used later
+"""
+def new_list_creator(list_of_strategies):
+    :param list_of_strategies: list of list of life-months and costs
+    :return: "list_of_strategies_updated" or just "list_of_strategies" and "list_of_ICER"
+    t = 1
+    ICER_1st_2nd_strategy = []
+    list_of_ICER = []
+    list_of_strategies_updated = []
+    while t < 11:
+        # ICER, first_strategy, second_strategy
+        ICER_1st_2nd_scenario = ICER_calculator(list_of_strategies[t-1], list_of_strategies[t])
+
+        # if incr_lm <0, and incr_cost>0, then remove first_strategy and ICER (Scenario == 4)
+        if ICER_1st_2nd_scenario[0] == 4:
+            list_of_strategies.remove(list_of_strategies[t - 1])
+        # if incr_lm <0, and incr_cost>0, then
+
+        # if incr_lm >0, and incr_cost>0, the
+
+        # if incr_lm >0, and incr_cost<0, the
+
+        # if second_strategy_LM < first_strategy_LM, then
+            list_of_ICER.append(result[0])
+            list_of_strategies_updated.append(ICER_1st_2nd_strategy[t - 1])
+            list_of_strategies_updated.append(ICER_1st_2nd_strategy[t])
+        if result[0] == 0:
+            list_of_strategies_updated.append(list_of_strategies[t])
+        # remove stage1
+        elif result[1] == 0:
+            list_of_strategies_updated.append(list_of_strategies[t-1])
+
+
+        if result[0] != 0:
+            list_of_ICER.append(result[0]) # add the new ICER to the list_of_ICER
+        if result[1]:
+            list_of_strategies_updated.append(list_of_strategies[t-1])
+            list_of_strategies_updated.append(list_of_strategies[t])
+        else:
+            list_of_strategies_updated.append(list_of_strategies[t-1])
+            list_of_strategies_updated.append(list_of_strategies[t])
+        t +=1
+
+    return list_of_ICER, list_of_strategies
+
+def ICER_Comparator(list_of_ICER):
+
+    this function checks the second ICER and first ICER.
+        If second ICER is SMALLER than first ICER:
+            remove the second strategy (its LM and Cost)
+            then, recalculate the ICER from where the second ICER was removed and make new ICER
+        If second ICER is LARGER than first ICER:
+            keep both first ICER And second ICER as they are
+    :param list_of_ICER: NOT-sorted list of ICERS
+    :return:
+"""
+
+# Q3 ------------------------------------------------------------------------------------------------
+import numpy as np
+import scipy.stats as st
+from scipy.stats import beta
+
+x = np.linspace(0, 1,)
+        # p(S->E)
+p_SE = 0.00167
+beta_SE = beta.pdf(10, 6000)
+
+help(beta.pdf)
+
+import matplotlib.pyplot as plt
+
+fig, ax = plt.subplots(1, 1)
+a, b = 2.31, 0.627
+
+mean, var, skew, kurt = beta.stats(a, b, moments='mvsk')
+
+x = np.linspace(beta.ppf(0.01, a, b),
+
+beta.ppf(0.99, a, b), 100)
+
+ax.plot(x, beta.pdf(x, a, b),
+    'r-', lw=5, alpha=0.6, label='beta pdf')
+
+
+n_max_cycles = 50
+for t in range(0, n_max_cycles):
+    rv_r = np.random.beta(10, 6000)
+    print(rv_r)
+
+help(np.linspace)
+help(beta.ppf)
+print(beta.ppf(0.00167, 10, 6000))
+
+
+
+import random
+rv = beta.rvs(0.7708,n_max_cycles)
+rv_r = np.random.beta(10, 6000)
+help(beta.rvs)
+print(rv_r)

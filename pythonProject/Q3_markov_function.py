@@ -1,9 +1,6 @@
 import numpy as np
-import math
 
-
-
-def cost_life_month_model(n_max_cycles=600, screen=100):
+def cost_life_month_model_dist(n_max_cycles=600, screen=100):
     """
     :param n_max_cycles: maximum number of cycles
     :param switch: decides at which point to conduct the screening;default at 10 (no-screen)
@@ -11,10 +8,6 @@ def cost_life_month_model(n_max_cycles=600, screen=100):
     """
     total_life_months = 0
     total_accum_cost = 0
-
-    # cost estimates
-    c_test = 10
-    c_treatment = 200
 
     # Starting Population Proportion
     # Proportion of "Susceptible" population
@@ -32,25 +25,29 @@ def cost_life_month_model(n_max_cycles=600, screen=100):
     for t in range(0, n_max_cycles):
 
         # Probability of Background Death
-        p_BD = 1 - math.exp(-math.exp(-8 + t / 20) * 1 / 12)
+        p_BD = np.random.beta(20, 590)
 
         # Probability of State Transition
         # p(S->E)
-        p_SE = 0.00167
+        p_SE = np.random.beta(10, 6000)
         # p(E->I)
-        p_EI = 0.0000833
+        p_EI = np.random.beta(0.7708, 9253)
         # p(E->D)
         p_ED = 0.0328
         # p(I->D)
         p_ID = 0.0328
         # p(I->E)
-        p_IE = 0.156
+        p_IE = np.random.beta(20.78, 112.45)
+
+        # cost estimates
+        c_test = np.random.gamma(40, 0.25)
+        c_treatment = np.random.gamma(200, 1)
 
         # Check When to Screen Every 60 Months (12 months * 5 years)
         if (t // 60) == screen and (t % 60) == 0:
             # Tested & Treated:
-            sens_TST = 0.80
-            false_positive_TST = 0.05
+            sens_TST = np.random.beta(40, 10)
+            false_positive_TST = np.random.beta(38, 2)
 
             # New Probability of Disease Progression
             p_SE = p_SE * (1 - false_positive_TST)
@@ -144,54 +141,3 @@ def cost_life_month_model(n_max_cycles=600, screen=100):
     round(total_life_months, 2)
     round(total_accum_cost, 2)
     return [total_life_months, total_accum_cost]
-
-def ICER_calculator(first_strategy, second_strategy):
-    """
-    This function takes first and second strategy, and then subtracts first strategy's life month
-    from second strategy life month. Same applies to costs.
-    This function then checks if incremental lifemonth is larger, smaller, or equal to 0. Same applies to incre_cost
-
-    If Scenario1: incr_lm > 0 & incr_cost > 0 --> return
-    If Scenario2: incr_lm > 0 & incr_cost < 0 --> return
-    If Scenario3: incr_lm < 0 & incr_cost > 0 --> return
-    If Scenario4: incr_lm < 0 & incr_cost < 0 --> return
-
-    :param first_strategy[0]: life-month of the first strategy
-    :param second_strategy[0]: life-month of the second strategy
-    :param first_strategy[1]: cost of the first strategy
-    :param second_strategy[1]: cost of the second strategy
-    :return: ICER, dominant_strategy[life_month,cost]
-    """
-    # Incremental Life Month & Cost
-    incr_lm = second_strategy[1] - first_strategy[1]
-    incr_cost = second_strategy[2] - first_strategy[2]
-
-    # Scenario 1 & 3
-    if incr_lm > 0:
-        if incr_cost > 0:
-            ICER = incr_cost/(incr_lm/12)
-            print(f"Scenario1")
-            return ['%s'%(f"{second_strategy[0]} vs. {first_strategy[0]}"), ICER, 1]
-        elif incr_cost < 0:
-            ICER = incr_cost/(incr_lm/12)
-            print(f"Scenario3")
-            return ['%s'%(f"{second_strategy[0]} vs. {first_strategy[0]}"), ICER, 'Remove: %s'%(f"{first_strategy[0]}")]
-
-    # Scenario 2 & 4
-    elif incr_lm < 0:
-        if incr_cost < 0:
-            ICER = incr_cost/(incr_lm/12)
-            print(f"Scenario2")
-            return ['%s'%(f"{second_strategy[0]} vs. {first_strategy[0]}"), ICER, 2]
-        elif incr_cost > 0:
-            ICER = incr_cost/(incr_lm/12)
-            print(f"Scenario4")
-            return ['%s'%(f"{second_strategy[0]} vs. {first_strategy[0]}"), ICER, 'Remove: %s'%(f"{second_strategy[0]}")]
-
-    elif incr_lm == 0:
-        if incr_cost == 0:
-            ICER = 0
-            scenario = 5
-            print(f"Scenario5")
-            return ['%s'%(f"{second_strategy[0]} vs. {first_strategy[0]}"), ICER, 'Remove: %s'%(f"{second_strategy[0]}")]
-
