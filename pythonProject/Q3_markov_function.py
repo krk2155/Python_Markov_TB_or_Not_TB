@@ -1,6 +1,6 @@
 import numpy as np
 
-def cost_life_month_model_dist(n_max_cycles=600, screen=100):
+def cost_life_month_model_dist(n_max_cycles=660, screen=100):
     """
     :param n_max_cycles: maximum number of cycles
     :param switch: decides at which point to conduct the screening;default at 10 (no-screen)
@@ -25,7 +25,7 @@ def cost_life_month_model_dist(n_max_cycles=600, screen=100):
     for t in range(0, n_max_cycles):
 
         # Probability of Background Death
-        p_BD = np.random.beta(20, 590)
+        p_BD = np.random.beta(20, 590,1000)
 
         # Probability of State Transition
         # p(S->E)

@@ -3,7 +3,7 @@ import math
 
 
 
-def cost_life_month_model(n_max_cycles=600, screen=100):
+def cost_life_month_model(n_max_cycles=660, screen=100):
     """
     :param n_max_cycles: maximum number of cycles
     :param switch: decides at which point to conduct the screening;default at 10 (no-screen)
