@@ -3,6 +3,8 @@ import math
 import numpy as np
 import random
 
+
+
 #parameters
 
 #Background mortality (Monthly)
@@ -129,3 +131,4 @@ p = np.array([[0.856,0.138,0.007],
     [0.000,0.000,1.000]])
 c=s*p
 print(c)
+print("THIS IS MAIN.PY! CHANGE YOUR DIRECTORY FOR DEBUGGING")

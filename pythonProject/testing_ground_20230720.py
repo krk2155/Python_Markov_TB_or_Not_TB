@@ -251,3 +251,43 @@ list_of_things = np.linspace(0,1,10)
 list_of_things
 
 list_num
+import numpy as np
+p_BD = np.random.beta(20, 590)
+p_BD
+for i in range(10):
+    p_BD = np.random.beta(20, 590)
+    print(p_BD)
+
+
+n_max_cycles = 5
+for t in range(0, n_max_cycles):
+# Probability of Background Death
+    p_BD = np.random.beta(20, 590)
+    # Probability of State Transition
+    # p(S->E)
+    p_SE = np.random.beta(10, 6000)
+    # p(E->I)
+    p_EI = np.random.beta(0.7708, 9253)
+    # p(E->D)
+    p_ED = 0.0328
+    # p(I->D)
+    p_ID = 0.0328
+    # p(I->E)
+    p_IE = np.random.beta(20.78, 112.45)
+
+    # cost estimates
+    c_test = np.random.gamma(40, 0.25)
+    c_treatment = np.random.gamma(200, 1)
+    print(c_treatment)
+
+counter = 0
+screen =
+for t in range(10):
+    sens_TST = np.random.beta(40, 10)
+    print(sens_TST)
+counter
+
+import numpy as np
+init_state_prop = np.array([0.1,0.2,0.3,0.4])
+print(sum(init_state_prop[0:3]))
+print(init_state_prop[3])

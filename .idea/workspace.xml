@@ -5,23 +5,44 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="205c9f5b-ad15-489a-ab7d-a73df8b0c52f" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/other.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pythonProject/TB_notTB_20230724.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pythonProject/test.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pythonProject/testing_ground_20230724.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pythonProject/Final_Answer/Q1_markov_function_PC.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pythonProject/Final_Answer/Q2_markov_function_PC.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pythonProject/Final_Answer/Q3_markov_function_PC.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pythonProject/Final_Answer/Q4_markov_function_PC.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pythonProject/Final_Answer/TB_notTB_main.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pythonProject/Q1_markov_function-VBS-C5P7TQ3.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pythonProject/Q1_markov_function_PC.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pythonProject/Q2_markov_function-VBS-C5P7TQ3.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pythonProject/Q2_markov_function_PC.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pythonProject/Q3_markov_function-VBS-C5P7TQ3.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pythonProject/Q3_markov_function_PC.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pythonProject/Q4_markov_function_PC.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pythonProject/TB_notTB_20230719-VBS-C5P7TQ3.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pythonProject/TB_notTB_20230726.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pythonProject/TB_notTB_20230821.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pythonProject/TB_notTB_20230824.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pythonProject/TB_notTB_20230825.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pythonProject/playground_20230821.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pythonProject/testing_ground_20230725.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pythonProject/testing_ground_20230726.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pythonProject/testing_ground_20230727.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/Python_Markov_TB_or_Not_TB.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/Python_Markov_TB_or_Not_TB.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pythonProject/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pythonProject/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pythonProject/.idea/pythonProject.iml" beforeDir="false" afterPath="$PROJECT_DIR$/pythonProject/.idea/pythonProject.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pythonProject/Q1_markov_function.py" beforeDir="false" afterPath="$PROJECT_DIR$/pythonProject/Q1_markov_function.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pythonProject/Q2_markov_function.py" beforeDir="false" afterPath="$PROJECT_DIR$/pythonProject/Q2_markov_function.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pythonProject/Q3_markov_function.py" beforeDir="false" afterPath="$PROJECT_DIR$/pythonProject/Q3_markov_function.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pythonProject/TB_notTB_20230719.py" beforeDir="false" afterPath="$PROJECT_DIR$/pythonProject/TB_notTB_20230719.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pythonProject/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/pythonProject/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pythonProject/testing_ground_20230720.py" beforeDir="false" afterPath="$PROJECT_DIR$/pythonProject/testing_ground_20230720.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Python Script" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -39,6 +60,7 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "ASKED_ADD_EXTERNAL_FILES": "true",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
@@ -48,7 +70,7 @@
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
-    "settings.editor.selected.configurable": "preferences.lookFeel",
+    "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PythonContentEntriesConfigurable",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
@@ -92,10 +114,33 @@
       <workItem from="1689703094402" duration="2000" />
       <workItem from="1689899521296" duration="71000" />
       <workItem from="1690027162581" duration="7356000" />
+      <workItem from="1690314560757" duration="609000" />
+      <workItem from="1690812078560" duration="5730000" />
+      <workItem from="1692451797553" duration="34833000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <default-breakpoints>
+        <breakpoint type="python-exception">
+          <properties notifyOnTerminate="true" exception="BaseException">
+            <option name="notifyOnTerminate" value="true" />
+          </properties>
+        </breakpoint>
+      </default-breakpoints>
+    </breakpoint-manager>
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/Python_Markov_TB_or_Not_TB$playground_20230821.coverage" NAME="playground_20230821 Coverage Results" MODIFIED="1692735716605" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/pythonProject" />
+    <SUITE FILE_PATH="coverage/Python_Markov_TB_or_Not_TB$testing_ground_20230727.coverage" NAME="testing_ground_20230727 Coverage Results" MODIFIED="1692458334641" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/pythonProject" />
+    <SUITE FILE_PATH="coverage/Python_Markov_TB_or_Not_TB$TB_notTB_20230821.coverage" NAME="TB_notTB_20230821 Coverage Results" MODIFIED="1692735462264" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/pythonProject" />
+    <SUITE FILE_PATH="coverage/Python_Markov_TB_or_Not_TB$pythonProject.coverage" NAME="pythonProject Coverage Results" MODIFIED="1692635214253" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>
