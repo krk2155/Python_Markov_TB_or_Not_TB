@@ -1,84 +1,83 @@
 from matplotlib import pyplot as plt
-
-from Q1_markov_function_PC import life_month_model, difference_calculator_LM
-from Q2_markov_function_PC import cost_life_month_model, ICER_calculator, difference_calculator_Cost
-from Q3_markov_function_PC import cost_life_month_model_dist
+from Q1_markov_function_PC import life_month_model, LY_difference
+from Q2_markov_function_PC import list_of_sorted_strategy,  print_ICER, strategy_remover
+from Q3_markov_function_PC import cost_life_month_model_dist, difference_calculator_Cost
 from Q4_markov_function_PC import p_of_CE, WTP_at_1000
 
 # Q1 ------------------------------------------------------------
-screening_reward_total_life_months = life_month_model(n_max_cycles=660, screen=1)
-no_screening_total_life_months = life_month_model(n_max_cycles=600, screen=100)
+ls_LY = []
+LY = 0
+# screening at age 0 ~ 50 y.o.
+for i in range(0, 11):
+    LY = life_month_model(screen=i)
+    ls_LY.append(LY)
 
-# Difference in Years and Months
-difference_calculator_LM(screening_reward_total_life_months, no_screening_total_life_months)
+# no screening strategy
+no_screening = life_month_model(screen=1000)
+
+# List of LY difference between each strategy and no-screening strategy
+ls_LY_diff = []
+for i in range(0, 11):
+    ls_LY_diff.append(LY_difference(ls_LY[i], no_screening))
+
 
 # Q2 ------------------------------------------------------------
 # Create a list of month, cost for each 5 years
-list_of_strategies = []
-for i in range(0, 11):
-    globals()['life_month_cost_yr_%d' % (i * 5)] = cost_life_month_model(n_max_cycles=660, screen=i)
-    list_of_strategies.append(cost_life_month_model(n_max_cycles=660, screen=i))
-
-len(list_of_strategies)
+list_of_strategies = list_of_sorted_strategy()
 list_of_strategies
 
-# Adding "Do Nothing" Strategy (LM & Cost when screening is done at age 500 (never done))
-list_of_strategies.append(cost_life_month_model(n_max_cycles=660, screen=1000))
-
-# Adding index number (try: enumerate next time)
-# Note: Do Nothing has index number i == 11
-for i in range(0, len(list_of_strategies)):
-    list_of_strategies[i].insert(0, '%d' % (i))
-
-
-# Sort the list in ascending order of life_months
-sorted_list_strategies = sorted(list_of_strategies, key=lambda x: x[1])
-sorted_list_strategies
-
 # Attempt to estimate ICER and return value
-list_of_ICERS = []
-for i in range(1, len(list_of_strategies)):
-    list_of_ICERS.append(ICER_calculator(sorted_list_strategies[i - 1], sorted_list_strategies[i]))
+list_of_ICERS = print_ICER(list_of_strategies)
 list_of_ICERS
 
-# Remove strategy 5 ~10 and 1
-new_list = []
-for e in sorted_list_strategies:
-    if e[0] not in ('5', '6', '7', '8', '9', '10', '11','2'):
-        new_list.append(e)
-new_list_strategies = new_list
-new_list_strategies
+# Remove strategy 5 ~ 11 and 2
+list_strategy_to_remove = ['5', '6', '7', '8', '9', '10', '11','2']
+new_list = strategy_remover(list_of_strategies, list_strategy_to_remove)
+new_list
 
 # Recalculate the ICER
-list_of_ICERS = []
-for i in range(1, len(new_list_strategies)):
-    list_of_ICERS.append(ICER_calculator(new_list_strategies[i - 1], new_list_strategies[i]))
+list_of_ICERS = print_ICER(new_list)
 list_of_ICERS
 
-new_list_strategies.pop(0)
-new_list_strategies
+# Remove strategy 4
+new_list.pop(0)
+new_list
 
-list_of_ICERS = []
-for i in range(1, len(new_list_strategies)):
-    list_of_ICERS.append(ICER_calculator(new_list_strategies[i - 1], new_list_strategies[i]))
+# Recalculate the ICER
+list_of_ICERS = print_ICER(new_list)
 list_of_ICERS
 
 # Result of ICERS:
 # ICER between strategy "0" vs. "3": 24155503.845547542
 # ICER between strategy "1" vs. "0": 48308.625921583174
 
-############################ ANSWER ###################################
-# Given WTP threshold of $1000/Life-Year, strategy#3 is preferred.
-# Strategy#3 is to conduct TST screening at age 15.
-# This is different from the result of Question 1,
-# which showed that screening at age 5 produces the most Life-Years
+# Given WTP threshold of $1000/Life-Year, strategy#3 (screening at age 15) is preferred.
+# This is different from the result of Question 1, which showed that screening at age 5 produces the most Life-Years
+
 
 # Q3 ------------------------------------------------------------
-screening_LM_C_Dist = cost_life_month_model_dist(n_max_cycles=660, screen=1)
-no_screening_LM_C_Dist = cost_life_month_model_dist(n_max_cycles=660, screen=100)
+ls_LY_cost_95CI = []
+LY_cost_95CI = []
+
+# screening at age 0 ~ 50 y.o.
+for i in range(0, 11):
+    LY_cost_95CI = cost_life_month_model_dist(screen=i)
+    ls_LY_cost_95CI.append(LY_cost_95CI)
+
+ls_LY_cost_95CI
+
+# no screening strategy
+no_screening = cost_life_month_model_dist(screen=1000)
+no_screening
+
+# adding a no-screening strategy to the list of strategies
+ls_LY_cost_95CI.append(cost_life_month_model_dist(screen=1000))
+
+# 8/26/2023: start from here - fix the LY/Cost difference between
+# each strategy LY and costs.
 
 # Difference in Years and Months
-difference_calculator_LM(screening_LM_C_Dist[0], no_screening_LM_C_Dist[0])
+LY_difference(ls_LY_cost_95CI[0][0], no_screening[0])
 
 # Make a for-loop, creating either a Dictionary or List storing all values.
 dict_LM = {}
@@ -98,8 +97,11 @@ df = p_of_CE()
 plt.plot(df.WTP,df.Probability)
 plt.xlabel("WTP")
 plt.ylabel("Probability of Cost-Effectiveness")
-plt.title("Cost-Effectiveness Acceptability Curve")
+plt.title("Cost-Effectiveness Acceptability Curve (n of simulation = 100)")
+plt.savefig('Figure1.png', bbox_inches='tight')
 plt.show()
+
+
 
 # if WTP == 1000:
 WTP_at_1000()

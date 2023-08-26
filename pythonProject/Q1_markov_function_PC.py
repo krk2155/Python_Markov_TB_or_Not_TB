@@ -5,11 +5,10 @@ import math
 def life_month_model(n_max_cycles=660, screen=100):
     """
     :param n_max_cycles: maximum number of cycles
-    :return: returns total reward
+    :return: returns total reward (in Life-Months)
     """
     total_life_months = 0
 
-    # Starting Population
     # proportion of "Susceptible" population
     start_prop_S = 1
     # proportion of "Latent" population
@@ -19,6 +18,7 @@ def life_month_model(n_max_cycles=660, screen=100):
     # proportion of "Dead" population
     start_prop_D = 0
 
+    # Starting Population
     init_state_prop = np.array([start_prop_S, start_prop_E, start_prop_I, start_prop_D])
 
     for t in range(0, n_max_cycles):
@@ -105,39 +105,22 @@ def life_month_model(n_max_cycles=660, screen=100):
         # accumulate each cycle's "life-months" into "total_life_months"
         total_life_months += cycle_reward
 
-        year = t // 12
-        month = t % 12
-
-        # print cycle, age, proportion of "S","E","I","D", each cycle, and total reward
-        print(f"Cycle: {t}, "
-              f"Age: {year} Yr {month} Mo, "
-              f"Susceptible: {init_state_prop[0]:.4f}, "
-              f"Latent TB: {init_state_prop[1]:.4f}, "
-              f"Active TB: {init_state_prop[2]:.4f}, "
-              f"Dead: {init_state_prop[3]:.4f}, "
-              f"Current reward: {cycle_reward:.4f}, Total Reward: {total_life_months:.4f}")
-
-    return total_life_months
-
-
-def difference_calculator_LM(screening_reward, no_screening_reward):
-    """
-    :param screening_reward:
-    :param no_screening_reward:
-    :return:year_month
-    """
-    diff_total_life_month = screening_reward - no_screening_reward
-    if diff_total_life_month < 0:
-        diff_life_year = abs(diff_total_life_month) // 12
-        diff_life_year = -diff_life_year
-        diff_remain_months = abs(diff_total_life_month) % 12
-        diff_remain_months = -diff_remain_months
+    # converting life-months to life-years
+    if total_life_months % 12 > 0:
+        life_years = total_life_months//12 + total_life_months % 12
     else:
-        diff_life_year = diff_total_life_month // 12
-        diff_remain_months = diff_total_life_month % 12
-    year_month = [round(diff_life_year, 4), round(diff_remain_months, 4)]
+        life_years = total_life_months // 12
 
-    print(f"Difference in Years {diff_life_year:.5f} and Months {diff_remain_months:.5f}")
-    print(f"Difference in Total Months {diff_total_life_month:.5f} ")
+    round(life_years, 4)
+    return life_years
 
-    return year_month
+
+def LY_difference(LY_screening, LY_no_screening):
+    """
+    :param LY_screening: Life-Years of screening strategy
+    :param LY_no_screening: Life-Years of no-screening strategy
+    :return: LY_diff: difference in life-years between strategies
+    """
+    LY_diff = round((LY_screening - LY_no_screening),4)
+
+    return LY_diff

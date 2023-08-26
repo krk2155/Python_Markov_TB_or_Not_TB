@@ -154,7 +154,7 @@ def ICER_generator(intervention, comparator):
 
 ICER_generator(3,1000)
 
-def p_of_CE(max_WTP = 5000, simulation = 50, intervention = 3, comparator = 1000, seed = 123):
+def p_of_CE(max_WTP = 5000, simulation = 100, intervention = 3, comparator = 1000, seed = 123):
 
     """
     :param simulation: number of simulations

@@ -225,7 +225,7 @@ outputs
 # making the list of list into dataframe
 df_WTP_CE = pd.DataFrame(outputs, columns = ['WTP','Probability'])
 df"""
-
+12 % 12
 
 
 # 3. Estimate What Proportion of the 1000 cohorts fall under the WTP Threshold
@@ -242,3 +242,7 @@ w
 
 
 # 5. Combine them into a graph
+
+# for i in range(0, 11):
+#     globals()['life_month_cost_yr_%d' % (i * 5)] = cost_life_month_model(n_max_cycles=660, screen=i)
+#     list_of_strategies.append(cost_life_month_model(n_max_cycles=660, screen=i))

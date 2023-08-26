@@ -5,32 +5,17 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="205c9f5b-ad15-489a-ab7d-a73df8b0c52f" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/pythonProject/Final_Answer/Q1_markov_function_PC.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pythonProject/Final_Answer/Q2_markov_function_PC.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pythonProject/Final_Answer/Q3_markov_function_PC.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pythonProject/Final_Answer/Q4_markov_function_PC.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pythonProject/Final_Answer/TB_notTB_main.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pythonProject/Q1_markov_function-VBS-C5P7TQ3.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pythonProject/Q1_markov_function_PC.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pythonProject/Q2_markov_function-VBS-C5P7TQ3.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pythonProject/Q2_markov_function_PC.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pythonProject/Q3_markov_function-VBS-C5P7TQ3.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pythonProject/Q3_markov_function_PC.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pythonProject/Q4_markov_function_PC.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pythonProject/TB_notTB_20230719-VBS-C5P7TQ3.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pythonProject/TB_notTB_20230726.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pythonProject/TB_notTB_20230821.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pythonProject/TB_notTB_20230824.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pythonProject/TB_notTB_20230825.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pythonProject/playground_20230821.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pythonProject/testing_ground_20230725.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pythonProject/testing_ground_20230726.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pythonProject/testing_ground_20230727.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/Python_Markov_TB_or_Not_TB.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/Python_Markov_TB_or_Not_TB.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pythonProject/Figure1.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pythonProject/Kun-Woo coding question[43].pdf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pythonProject/TB_or_not_TB_Kim_20230825.docx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pythonProject/TB_or_not_TB_Kim_20230825.pdf" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pythonProject/Q3_markov_function.py" beforeDir="false" afterPath="$PROJECT_DIR$/pythonProject/Q3_markov_function.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pythonProject/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/pythonProject/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pythonProject/testing_ground_20230720.py" beforeDir="false" afterPath="$PROJECT_DIR$/pythonProject/testing_ground_20230720.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pythonProject/Q1_markov_function_PC.py" beforeDir="false" afterPath="$PROJECT_DIR$/pythonProject/Q1_markov_function_PC.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pythonProject/Q2_markov_function_PC.py" beforeDir="false" afterPath="$PROJECT_DIR$/pythonProject/Q2_markov_function_PC.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pythonProject/Q3_markov_function_PC.py" beforeDir="false" afterPath="$PROJECT_DIR$/pythonProject/Q3_markov_function_PC.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pythonProject/Q4_markov_function_PC.py" beforeDir="false" afterPath="$PROJECT_DIR$/pythonProject/Q4_markov_function_PC.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pythonProject/TB_notTB_20230825.py" beforeDir="false" afterPath="$PROJECT_DIR$/pythonProject/TB_notTB_20230825.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pythonProject/playground_20230821.py" beforeDir="false" afterPath="$PROJECT_DIR$/pythonProject/playground_20230821.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -50,6 +35,9 @@
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="CurrentFile" />
+  </component>
   <component name="ProjectId" id="2Skuqoo4RO8MqP6cS1mwjTkuJOu" />
   <component name="ProjectLevelVcsManager">
     <ConfirmationsSetting value="2" id="Add" />
@@ -58,22 +46,22 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ASKED_ADD_EXTERNAL_FILES": "true",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "last_opened_file_path": "/Users/kun-wookim/Library/CloudStorage/OneDrive-Vanderbilt/Python_Markov_TB_or_Not_TB/pythonProject",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PythonContentEntriesConfigurable",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Users/kun-wookim/Library/CloudStorage/OneDrive-Vanderbilt/Python_Markov_TB_or_Not_TB/pythonProject&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;com.jetbrains.python.configuration.PythonContentEntriesConfigurable&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/pythonProject" />
@@ -117,6 +105,8 @@
       <workItem from="1690314560757" duration="609000" />
       <workItem from="1690812078560" duration="5730000" />
       <workItem from="1692451797553" duration="34833000" />
+      <workItem from="1692982933172" duration="6177000" />
+      <workItem from="1693057064719" duration="6955000" />
     </task>
     <servers />
   </component>
