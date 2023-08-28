@@ -5,7 +5,7 @@ import math
 def life_month_model(n_max_cycles=660, screen=100):
     """
     :param n_max_cycles: maximum number of cycles
-    :return: returns total reward (in Life-Months)
+    :return: Total Life-Years (rounded to 4 decimals)
     """
     total_life_months = 0
 
@@ -114,13 +114,29 @@ def life_month_model(n_max_cycles=660, screen=100):
     round(life_years, 4)
     return life_years
 
-
-def LY_difference(LY_screening, LY_no_screening):
+def list_strategy_generator():
     """
-    :param LY_screening: Life-Years of screening strategy
-    :param LY_no_screening: Life-Years of no-screening strategy
-    :return: LY_diff: difference in life-years between strategies
+    :return: A list of total Life-Years of different screening strategies
+    and that of no-screening strategy
     """
-    LY_diff = round((LY_screening - LY_no_screening),4)
 
-    return LY_diff
+    ls_LY = []
+    # screening at age 0 ~ 50 y.o.
+    for i in range(0, 11):
+        LY = life_month_model(screen=i)
+        ls_LY.append(LY)
+
+    # no screening strategy
+    no_screening = life_month_model(screen=1000)
+    return ls_LY, no_screening
+
+def list_diff_generator(ls_LY, no_screening):
+    """
+    :param ls_LY: List of total Life-Years of Screening Strategies
+    :param no_screening: Total Life-Years of no-screening strategy
+    :return: a list of difference between each strategy and no screening
+    """
+    ls_LY_diff = []
+    for i in range(0, 11):
+        ls_LY_diff.append(round((ls_LY[i], no_screening), 4))
+    return ls_LY_diff

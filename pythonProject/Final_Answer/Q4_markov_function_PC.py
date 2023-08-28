@@ -139,7 +139,12 @@ def outcome_per_WTP(n_max_cycles=660, screen=100):
         total_life_months += cycle_reward
         total_accum_cost += cycle_cost
 
-    return total_life_months, total_accum_cost
+    # converting life-months to life-years
+    if total_life_months % 12 > 0:
+        life_years = total_life_months // 12 + total_life_months % 12
+    else:
+        life_years = total_life_months // 12
+    return life_years, total_accum_cost
 
 def ICER_generator(intervention, comparator):
     """
@@ -152,35 +157,40 @@ def ICER_generator(intervention, comparator):
     ICER = (Cost_intvn-Cost_comp)/(LM_intvn - LM_comp)
     return ICER
 
-ICER_generator(3,1000)
-
-def p_of_CE(max_WTP = 5000, simulation = 50, intervention = 3, comparator = 1000, seed = 123):
-
+def p_of_CE(max_WTP = 5000, step = 50, simulation = 100, intervention = 3, comparator = 1000, seed = 123):
     """
+    :param max_WTP: Maximum WTP Threshold
+    :param step: incremental WTP value
     :param simulation: number of simulations
-    :param threshold: WTP Threshold
-    :return:
+    :param intervention: screening strategy at age cohort of i * 5 (e.g., 3 * 5 = 15 y.o.)
+    :param comparator: screening strategy at age 5000 (no screening)
+    :param seed: seed number for random generator
+    :return: return a dataframe with columns 'WTP' and 'Probability'
     """
     np.random.seed(seed)
 
     # creating an empty list
     outputs = []
+    # creating a list of WTP values
+    ls_WTP = list(range(0, max_WTP, step))
 
-    ls_WTP = list(range(0, max_WTP, 50))
-    # for-loop to include WTP per output
+    # for-loop to run X number of simulation per WTP threshold
     for i in ls_WTP:
+        # create an empty ticker (1 = below WTP 0 = above WTP)
         ls_ticker = []
         # for-loop to simulate & get proportion of CE per WTP
         for j in range(0, simulation):
-            # get ICER of the WTP
+            # for each simulation, get ICER of the WTP
             i_ICER = ICER_generator(intervention, comparator)
-            # ticker = 1 if the WTP's ICER <= threshold 0 otherwise
+            # ticker = 1 if the WTP's ICER <= threshold
             if i_ICER <= i:
                 ticker = 1
+            # ticker = 0 otherwise
             else:
                 ticker = 0
             # store all ticker in a list for the WTP
             ls_ticker.append(ticker)
+
         # total number of positive ticker in the WTP
         n_of_positive = sum(ls_ticker)
         # total number of ticker in the WTP

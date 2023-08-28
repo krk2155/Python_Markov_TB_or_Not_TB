@@ -166,8 +166,6 @@ def list_of_sorted_strategy():
 
     return sorted_list_strategies
 
-
-
 def ICER_calculator(first_strategy, second_strategy):
     """
     This function takes first and second strategy, and then subtracts first strategy's life year

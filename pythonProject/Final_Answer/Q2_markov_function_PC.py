@@ -114,14 +114,15 @@ def cost_life_month_model(n_max_cycles=660, screen=100):
         # multiplying init_state matrix with transitionProb matrix
         end_state_prop = init_state_prop.dot(transitionProb)
 
+        # stop the cycle when all individuals have died
         if end_state_prop[3] == 1:
             break
-
+        # otherwise, check if any (S, E, I) are negative & continue
         else:
             for index, x in enumerate(end_state_prop):
+                # if negative, turn the value into 0
                 if x < 0:
                     end_state_prop[index] = 0
-
 
 
         # new init_state is the old end_state
@@ -135,99 +136,97 @@ def cost_life_month_model(n_max_cycles=660, screen=100):
         total_life_months += cycle_reward
         total_accum_cost += cycle_cost
 
-        year = t // 12
-        month = t % 12
+    # converting life-months to life-years
+    if total_life_months % 12 > 0:
+        life_years = total_life_months // 12 + total_life_months % 12
 
-        # print cycle, age, proportion of "S","E","I","D", each cycle, and total reward
-        print(f"Cycle: {t}, "
-              f"Age: {year} Yr {month} Mo, "
-              f"Susceptible: {init_state_prop[0]:.4f}, "
-              f"Latent TB: {init_state_prop[1]:.4f}, "
-              f"Active TB: {init_state_prop[2]:.4f}, "
-              f"Dead: {init_state_prop[3]:.4f}, "
-              f"Total Reward: {total_life_months:.4f}, "
-              f"Total Cost: {total_accum_cost:.4f}")
+    else:
+        life_years = total_life_months // 12
 
-    round(total_life_months, 2)
-    round(total_accum_cost, 2)
-    return [total_life_months, total_accum_cost]
+    round(life_years, 4)
+    round(total_accum_cost, 4)
+    return [life_years, total_accum_cost]
 
+def list_of_sorted_strategy():
+    list_of_strategies = []
+    # store the list of strategies into "list_of_strategies"
+    for i in range(0, 11):
+        list_of_strategies.append(cost_life_month_model(screen=i))
+
+    # Adding "Do Nothing" Strategy (LM & Cost when screening is done at age 5000 (never screened))
+    list_of_strategies.append(cost_life_month_model(screen=1000))
+
+    # Adding index number (try: enumerate next time)
+    # Note: Do Nothing has index number i == 11
+    for i in range(0, len(list_of_strategies)):
+        list_of_strategies[i].insert(0, '%d' % (i))
+
+    # Sort the list in ascending order of Life-Years
+    sorted_list_strategies = sorted(list_of_strategies, key=lambda x: x[1])
+
+    return sorted_list_strategies
 
 def ICER_calculator(first_strategy, second_strategy):
     """
-    This function takes first and second strategy, and then subtracts first strategy's life month
-    from second strategy life month. Same applies to costs.
-    This function then checks if incremental lifemonth is larger, smaller, or equal to 0. Same applies to incre_cost
+    This function takes first and second strategy, and then subtracts first strategy's life year
+    from second strategy life year. Same applies to costs.
+    This function then checks if incremental life-year is larger, smaller, or equal to 0. Same applies to incre_cost
 
-    If Scenario1: incr_lm > 0 & incr_cost > 0 --> return
-    If Scenario2: incr_lm > 0 & incr_cost < 0 --> return
-    If Scenario3: incr_lm < 0 & incr_cost > 0 --> return
-    If Scenario4: incr_lm < 0 & incr_cost < 0 --> return
+    If Scenario1: incr_ly > 0 & incr_cost > 0 --> return ICER (compare against WTP Threshold)
+    If Scenario2: incr_ly > 0 & incr_cost < 0 --> 1st strategy dominated (remove 1st strategy)
+    If Scenario3: incr_ly < 0 & incr_cost > 0 --> 2nd strategy dominated (remove 2nd strategy)
+    If Scenario4: incr_ly < 0 & incr_cost < 0 --> return ICER (compare against WTP Threshold)
 
     :return: ICER, dominant_strategy[life_month,cost]
     """
     # Incremental Life Month & Cost
-    incr_lm = second_strategy[1] - first_strategy[1]
+    incr_ly = second_strategy[1] - first_strategy[1]
     incr_cost = second_strategy[2] - first_strategy[2]
 
-    # Scenario 1 & 3
-    if incr_lm > 0:
+    # if 2nd Strategy's LY > 1st Strategy's LY
+    if incr_ly > 0:
+        # if 2nd Strategy's cost > 1st Strategy's cost
         if incr_cost > 0:
-            ICER = incr_cost / (incr_lm / 12)
-            print(f"Scenario1")
-            return ['%s' % f"{second_strategy[0]} vs. {first_strategy[0]}", ICER, 1]
+            ICER = incr_cost / incr_ly
+            return ['%s' % f"{second_strategy[0]} vs. {first_strategy[0]}", ICER]
+        # if 2nd Strategy's cost <= 1st Strategy's cost
         elif incr_cost <= 0:
-            ICER = incr_cost / (incr_lm / 12)
-            print(f"Scenario3")
+            ICER = incr_cost / incr_ly
             return ['%s' % f"{second_strategy[0]} vs. {first_strategy[0]}", ICER,
                     'Remove: %s' % f"{first_strategy[0]}"]
 
-    # Scenario 2 & 4
-    elif incr_lm < 0:
+    # if 2nd Strategy's LY < 1st Strategy's LY
+    elif incr_ly < 0:
+        # if 2nd Strategy's cost > 1st Strategy's cost
         if incr_cost < 0:
-            ICER = incr_cost / (incr_lm / 12)
-            print(f"Scenario2")
+            ICER = incr_cost / incr_ly
             return ['%s' % f"{second_strategy[0]} vs. {first_strategy[0]}", ICER, 2]
+        # if 2nd Strategy's cost <= 1st Strategy's cost
         elif incr_cost >= 0:
-            ICER = incr_cost / (incr_lm / 12)
-            print(f"Scenario4")
+            ICER = incr_cost / incr_ly
             return ['%s' % f"{second_strategy[0]} vs. {first_strategy[0]}", ICER,
                     'Remove: %s' % f"{second_strategy[0]}"]
 
-    elif incr_lm == 0:
-        if incr_cost == 0:
-            ICER = 0
-            print(f"Scenario5")
-            return ['%s' % f"{second_strategy[0]} vs. {first_strategy[0]}", ICER,
+    # if 2nd Strategy's LY == 1st Strategy's LY
+    elif incr_ly == 0:
+        # if 2nd Strategy's cost > 1st Strategy's cost
+        if incr_cost >= 0:
+            return ['%s' % f"{second_strategy[0]} vs. {first_strategy[0]}",
                     'Remove: %s' % f"{second_strategy[0]}"]
-
-        elif incr_cost > 0:
-            ICER = incr_cost / (incr_lm / 12)
-            print(f"Scenario6")
-            return ['%s' % f"{second_strategy[0]} vs. {first_strategy[0]}", ICER,
-                    'Remove: %s' % f"{second_strategy[0]}"]
-
+        # if 2nd Strategy's cost <= 1st Strategy's cost
         elif incr_cost < 0:
-            ICER = incr_cost / (incr_lm / 12)
-            print(f"Scenario7")
-            return ['%s' % f"{second_strategy[0]} vs. {first_strategy[0]}", ICER,
+            return ['%s' % f"{second_strategy[0]} vs. {first_strategy[0]}",
                     'Remove: %s' % f"{first_strategy[0]}"]
 
+def print_ICER(sorted_list_strategies):
+    list_of_ICERS = []
+    for i in range(1, len(sorted_list_strategies)):
+        list_of_ICERS.append(ICER_calculator(sorted_list_strategies[i - 1], sorted_list_strategies[i]))
+    return list_of_ICERS
 
-def difference_calculator_Cost(screening_cost, no_screening_cost):
-    """
-    :param screening_cost:
-    :param no_screening_cost:
-    :return:
-    """
-    diff_total_costs = screening_cost - no_screening_cost
-    if diff_total_costs < 0:
-        diff_total_costs_abs = abs(diff_total_costs)
-        diff_total_costs = -diff_total_costs_abs
-    else:
-        diff_total_costs_abs = abs(diff_total_costs)
-        diff_total_costs = diff_total_costs_abs
-
-    print(f"Difference in Total Costs: {diff_total_costs:.5f} ")
-
-    return round(diff_total_costs, 5)
+def strategy_remover(sorted_list_strategies, list_remove):
+    new_list = []
+    for e in sorted_list_strategies:
+        if e[0] not in list_remove:
+            new_list.append(e)
+    return new_list

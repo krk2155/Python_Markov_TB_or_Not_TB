@@ -167,22 +167,15 @@ def cost_life_month_model_dist(n_max_cycles=660, screen=100, simulation_cycle=10
 
     return [mean_total_life_years, life_years_95_CI, mean_total_cost, cost_95_CI]
 
+def list_of_LY_cost_95CI():
+    ls_LY_cost_95CI = []
 
+    # screening at age 0 ~ 50 y.o.
+    for i in range(0, 11):
+        LY_cost_95CI = cost_life_month_model_dist(screen=i)
+        ls_LY_cost_95CI.append(LY_cost_95CI)
 
-def difference_calculator_Cost(screening_cost, no_screening_cost):
-    """
-    :param screening_cost:
-    :param no_screening_cost:
-    :return:
-    """
-    diff_total_costs = screening_cost - no_screening_cost
-    if diff_total_costs < 0:
-        diff_total_costs_abs = abs(diff_total_costs)
-        diff_total_costs = -diff_total_costs_abs
-    else:
-        diff_total_costs_abs = abs(diff_total_costs)
-        diff_total_costs = diff_total_costs_abs
+    # adding a no-screening strategy to the list of strategies
+    ls_LY_cost_95CI.append(cost_life_month_model_dist(screen=1000))
 
-    print(f"Difference in Total Costs: {diff_total_costs:.5f} ")
-
-    return round(diff_total_costs, 5)
+    return ls_LY_cost_95CI

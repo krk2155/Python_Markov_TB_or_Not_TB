@@ -12,9 +12,7 @@ def cost_life_month_model_dist(n_max_cycles=660, screen=100, simulation_cycle=10
     :param seed = seed for simulation
     :return: returns total reward
     """
-
-
-    ls_life_month = []
+    ls_life_years = []
     ls_cost = []
     np.random.seed(seed)
     for i in range(0, simulation_cycle):
@@ -144,29 +142,40 @@ def cost_life_month_model_dist(n_max_cycles=660, screen=100, simulation_cycle=10
             # accumulate each cycle's "life-months" into "total_life_months"
             total_life_months += cycle_reward
             total_accum_cost += cycle_cost
+        # converting life-months to life-years
+        if total_life_months % 12 > 0:
+            life_years = total_life_months // 12 + total_life_months % 12
+        else:
+            life_years = total_life_months // 12
 
         # appending each cycle reward and cost into a list
-        ls_life_month.append(total_life_months)
+        ls_life_years.append(life_years)
         ls_cost.append(total_accum_cost)
     # mean total life-months & costs
-    mean_total_life_month = np.mean(np.array(ls_life_month))
+    mean_total_life_years = np.mean(np.array(ls_life_years))
     mean_total_cost = np.mean(np.array(ls_cost))
 
     # upper and lower range of 95% CI life-months
-    life_month_95_CI = st.t.interval(confidence=0.95, df=len(ls_life_month) - 1,
-                                     loc=np.mean(ls_life_month),
-                                     scale=st.sem(ls_life_month))
+    life_years_95_CI = st.t.interval(confidence=0.95, df=len(ls_life_years) - 1,
+                                     loc=np.mean(ls_life_years),
+                                     scale=st.sem(ls_life_years))
 
     # upper and lower range of 95% CI costs
     cost_95_CI = st.t.interval(confidence=0.95, df=len(ls_cost) - 1,
                                loc=np.mean(ls_cost),
                                scale=st.sem(ls_cost))
 
-    # printing results
-    print(f"Avg. LM: {mean_total_life_month:.4f}, "
-          f"95% CI: ({life_month_95_CI[0]:.4f}, {life_month_95_CI[1]:.4f}), "
-          f"Avg. Cost: {mean_total_cost:.4f}, "
-          f"95% CI: ({cost_95_CI[0]:.4f}, {cost_95_CI[1]:.4f}), "
-          f"Screen: {screen * 5} Year Olds")
+    return [mean_total_life_years, life_years_95_CI, mean_total_cost, cost_95_CI]
 
-    return [mean_total_life_month, life_month_95_CI, mean_total_cost, cost_95_CI]
+def list_of_LY_cost_95CI():
+    ls_LY_cost_95CI = []
+
+    # screening at age 0 ~ 50 y.o.
+    for i in range(0, 11):
+        LY_cost_95CI = cost_life_month_model_dist(screen=i)
+        ls_LY_cost_95CI.append(LY_cost_95CI)
+
+    # adding a no-screening strategy to the list of strategies
+    ls_LY_cost_95CI.append(cost_life_month_model_dist(screen=1000))
+
+    return ls_LY_cost_95CI
